@@ -1,0 +1,13 @@
+{
+  "name": "trying-out-typescript",
+  "version": "1.0.0",
+  "description": "Trying out various features of TypeScript in a simple project",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "lite-server"
+  },
+  "devDependencies": {
+    "lite-server": "^2.5.4"
+  }
+}
