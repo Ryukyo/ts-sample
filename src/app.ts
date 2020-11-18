@@ -1,3 +1,15 @@
+//validation
+interface Validatable {
+    value: string  | number;
+    required?: boolean;
+    minLength?: number;
+    maxLength?: number;
+    min?: number;
+    max?: number;
+}
+
+
+
 // autobind decorator
 function autobind(_target: any, _methodName: string, desc: PropertyDescriptor) {
     const originalMethod = desc.value;
@@ -35,10 +47,52 @@ class ProjectInput {
         this.attachHTML();
     }
 
+    private collectUserInput (): [string, string, number] | void{
+        const enteredTitle = this.titleInputElement.value;
+        const enteredDescription = this.titleInputElement.value;
+        const enteredPeople = this.titleInputElement.value;
+
+        const titleValidatable: Validatable = {
+            value: enteredTitle,
+            required: true
+        }
+        const descriptionValidatable: Validatable = {
+            value: enteredDescription,
+            required: true,
+            minLength: 5
+        }
+        const peopleValidatable: Validatable = {
+            value: enteredPeople,
+            required: true,
+            min: 1
+        }
+
+        if (validate({value: enteredTitle, required: true, minLength: 5}) && 
+            validate({value: enteredDescription, required: true, minLength: 5}) && 
+            validate({value: enteredPeople, required: true, minLength: 5})
+            ) {
+            alert("Invalid input, try again!")
+            return;
+            } else {
+                return [enteredTitle, enteredDescription, +enteredPeople]
+            }
+    }
+
+    private clearInputs() {
+        this.titleInputElement.value = '';
+        this.descriptionInputElement.value = '';
+        this.peopleInputElement.value = '';
+    }
+
     @autobind
     private submitHandler(event: Event) {
         event.preventDefault();
-        console.log(this.titleInputElement.value)
+        const userInput = this.collectUserInput();
+
+        if (Array.isArray(userInput)) {
+            const [title, desc, people] = userInput;
+            this.clearInputs();
+        }
 
     }
 
