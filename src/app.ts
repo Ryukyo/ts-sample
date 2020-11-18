@@ -71,10 +71,10 @@ class ProjectInput {
         this.attachHTML();
     }
 
-    private collectUserInput (): [string, string, number] | void{
+    private collectUserInput (): [string, string, number] | void {
         const enteredTitle = this.titleInputElement.value;
-        const enteredDescription = this.titleInputElement.value;
-        const enteredPeople = this.titleInputElement.value;
+        const enteredDescription = this.descriptionInputElement.value;
+        const enteredPeople = this.peopleInputElement.value;
 
         const titleValidatable: Validatable = {
             value: enteredTitle,
@@ -86,20 +86,21 @@ class ProjectInput {
             minLength: 5
         }
         const peopleValidatable: Validatable = {
-            value: enteredPeople,
+            value: +enteredPeople,
             required: true,
-            min: 1
+            min: 1,
+            max: 5
         }
 
-        if (validate({value: enteredTitle, required: true, minLength: 5}) && 
-            validate({value: enteredDescription, required: true, minLength: 5}) && 
-            validate({value: enteredPeople, required: true, minLength: 5})
-            ) {
+        if (!validate(titleValidatable) || 
+            !validate(descriptionValidatable) || 
+            !validate(peopleValidatable)
+        ) {
             alert("Invalid input, try again!")
             return;
-            } else {
-                return [enteredTitle, enteredDescription, +enteredPeople]
-            }
+        } else {
+            return [enteredTitle, enteredDescription, +enteredPeople]
+        }
     }
 
     private clearInputs() {
@@ -115,9 +116,9 @@ class ProjectInput {
 
         if (Array.isArray(userInput)) {
             const [title, desc, people] = userInput;
+            console.log(title, desc, people);
             this.clearInputs();
         }
-
     }
 
     // this.submitHandler.bind(this) or @autobind decorator
